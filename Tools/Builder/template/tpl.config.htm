@@ -1,0 +1,51 @@
+{include file="tpl.header.htm"}
+{include file="tpl.menu.htm"}
+<form action="" method="post">
+  <table cellSpacing="0" cellPadding="0" id="table10" align="center">
+    <tr>
+      <td><table class="lcb" cellSpacing="0" cellPadding="5" width="100%" border="0" id="table13">
+          <tr>
+            <td><table border="0" align="center" width="100%">
+                <tr class='header' align="center">
+                  <td align="center">字段</td>
+                  <td align="center">注释</td>
+                  <td align="center">类型</td>
+                  <td align="center">插入</td>
+                  <td align="center">更新</td>
+                  <td align="center">查看</td>
+                  <td align="center">列表</td>
+                  <td align="center">查询</td>
+                </tr>
+                {section name=mysec loop=$list}
+                <tr style="border: 1px solid red;" bgcolor="{cycle values="#edeff0,#ffffff"}">
+                  <td align="center">{$list[mysec].name}
+                    <input type="hidden" value="{$list[mysec].name}" name="table_config[{$smarty.section.mysec.index}][name]"></td>
+                  <td align="center"><input type="text" value="{$list[mysec].comment}" name="table_config[{$smarty.section.mysec.index}][comment]"></td>
+                  <td align="center"><select name="table_config[{$smarty.section.mysec.index}][type]">
+						{html_options options=$types selected=$list[mysec].type}
+                    </select></td>
+                  <td align="center"><select name="table_config[{$smarty.section.mysec.index}][insert]">
+						{html_options options=$yesno selected=$list[mysec].insert}
+                    </select></td>
+                  <td align="center"><select name="table_config[{$smarty.section.mysec.index}][update]">
+						{html_options options=$yesno selected=$list[mysec].update}
+                    </select></td>
+                  <td align="center"><select name="table_config[{$smarty.section.mysec.index}][select]">
+						{html_options options=$yesno selected=$list[mysec].select}
+                    </select></td>
+                  <td align="center"><select name="table_config[{$smarty.section.mysec.index}][list]">
+						{html_options options=$yesno selected=$list[mysec].list}
+                    </select></td>
+                  <td align="center"><select name="table_config[{$smarty.section.mysec.index}][search]">
+						{html_options options=$yesno selected=$list[mysec].search}
+                    </select></td>
+                </tr>
+                {/section}
+              </table></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+  <div align="center"><input type="submit" value="更新"></form>
+
+{include file="tpl.footer.htm"} 

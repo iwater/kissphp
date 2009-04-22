@@ -1,0 +1,22 @@
+<table cellSpacing="0" cellPadding="0" align="center">
+  {literal}{section name=mysec loop=$list}
+  <tr>
+    <td id="oPage" prefix_url='?{$_url}' {$page_htc}style="behavior:url(/libs/scripts/htc/page_guide_bar.htc);"></td>
+  </tr>
+  {/literal}
+  <tr>
+    <td><table class="lcb" cellSpacing="0" cellPadding="5" width="100%" border="0">
+        <tr>
+          <td><table border="0" cellSpacing="0" cellPadding="0" width="100%">
+              {section name=rows loop=$config} {if $config[rows].select}
+              <tr bgcolor="{cycle values="#edeff0,#ffffff"}">
+                <td class="lefttitle">{$config[rows].comment} </td>
+                <td>{literal}{$list[mysec].{/literal}{$config[rows].name}{literal}}{/literal}</td>
+              </tr>
+              {/if} {/section}
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+{literal}{/section}{/literal}
+</table>

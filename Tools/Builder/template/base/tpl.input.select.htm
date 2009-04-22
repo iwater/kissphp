@@ -1,0 +1,4 @@
+<!-- <select haveall='false' prefix="{literal}{${/literal}{$config[rows].name}{literal}}{/literal}" name="{$config[rows].name}" xmlsrc="" class="xml"></select> -->
+<select name="{$config[rows].name}">
+{literal}{{/literal}html_options options=${$config[rows].name}_options selected="${$config[rows].name}"{literal}}{/literal}
+</select>

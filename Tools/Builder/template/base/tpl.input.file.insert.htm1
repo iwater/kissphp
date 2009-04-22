@@ -1,0 +1,2 @@
+<input id="f_file">&nbsp;<input type="button" onmouseover="fclick(t_file)" value="选择上传文件">
+<input name="upload" type="file" style="position:absolute;filter:alpha(opacity=30);width:30px;" id="t_file" onchange="f_file.value=this.value" hidefocus>

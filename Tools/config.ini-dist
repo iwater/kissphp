@@ -1,0 +1,5 @@
+[Subversion]
+#client_path = "D:\Tools\svn-win32-1.2.3\bin\svn"
+#config_path = "C:\Documents and Settings\Administrator\Application Data\Subversion"
+#username = user
+#password = pass

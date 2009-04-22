@@ -1,0 +1,29 @@
+<table cellSpacing="0" cellPadding="0" align="center">
+  <tr>
+  
+  <form action="" method="get" name="form1">
+    <td prefix_url='?_action=list' mPage=1 mPageSize=1 mPageCount=1 mNextPage=1 mPreviousPage=1 mFirstPage=1 mLastPage=1 mRecordCount=1 mStartRecord=1 mEndRecord=1 style="behavior:url(/libs/scripts/htc/page_guide_bar.htc);"></td>
+    </tr>
+    <tr>
+      <td><table class="lcb" cellSpacing="0" cellPadding="5" width="100%" border="0">
+          <tr>
+            <td><table border="0" cellSpacing="0" cellPadding="0" width="100%">
+                {section name=rows loop=$config} {if $config[rows].search}
+                <tr>
+                  <td class='leftheader'>{$config[rows].comment}</td>
+                  <td>{include file=$config[rows].file}</td>
+                </tr>
+                {/if} {/section}
+                <tr>
+                  <td class='leftheader'>操作</td>
+                  <td align="center"><input type="submit" value="搜索" id="submit">
+                    <input type="reset" value="重置" id="reset"><input type="hidden" name="_action" value="search"></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+  </form>
+  </tr>
+  
+</table><br>
+{include file="base/tpl.base_list.htm"}

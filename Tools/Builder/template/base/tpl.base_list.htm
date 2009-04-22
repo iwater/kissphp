@@ -1,0 +1,27 @@
+<table cellSpacing="0" cellPadding="0" id="table10" align="center">
+  {literal}
+  <tr>
+    <td id="oPage" prefix_url='?{$_url}' {$page_htc}style="behavior:url(/libs/scripts/htc/page_guide_bar.htc);"></td>
+  </tr>
+  {/literal}
+  <tr>
+    <td><table class="lcb" cellSpacing="0" cellPadding="5" width="100%" border="0" id="table13">
+        <tr>
+          <td><table border="0" align="center" width="100%">
+              <tr class='header' align="center" valign="middle"> {section name=rows loop=$config} {if $config[rows].list}
+                <td align="center"><a href="?{literal}{$_url}{/literal}&_order={$config[rows].name}{literal}{if $_order eq "{/literal}{$config[rows].name}{literal}"}%20desc{/if}{/literal}">{$config[rows].comment}{literal}{if $_order eq "{/literal}{$config[rows].name}{literal}"}↓{/if}{/literal}{literal}{if $_order eq "{/literal}{$config[rows].name}{literal} desc"}↑{/if}{/literal}</a></td>
+                {/if} {/section}
+                <td align="center">操作</td>
+              </tr>
+              {literal} {section name=mysec loop=$list}{/literal} {literal}
+              <tr style="border: 1px solid red;" bgcolor="{cycle values="#edeff0,#ffffff"}"> {/literal}{section name=rows loop=$config} {if $config[rows].list}
+                <td align="center">{literal}{$list[mysec].{/literal}{$config[rows].name}{literal}}{/literal}</td>
+                {/if} {/section}
+                <td align="center" id="oList_{literal}{$smarty.section.mysec.index}{/literal}" prefix_url="{section name=mysec loop=$key}&{$key[mysec]}={literal}{$list[mysec].{/literal}{$key[mysec]}{literal}}{/literal}{/section}">{literal}<span onClick="ListView('select',{$smarty.section.mysec.index});">查看</span>/<span onClick="ListView('update',{$smarty.section.mysec.index});">更新</span>/<span onClick="ListView('delete',{$smarty.section.mysec.index});">删除</span>{/literal}</td>
+              </tr>
+              {literal}{/section} {/literal}
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>

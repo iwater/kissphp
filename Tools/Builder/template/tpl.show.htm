@@ -1,0 +1,28 @@
+{include file="tpl.header.htm"}
+{include file="tpl.menu.htm"}
+{literal}
+<style type="text/css">
+<!--
+body,a {
+	font-family: "宋体";
+	font-size: 14px;
+}
+-->
+</style>
+{/literal}
+<form action="" method="post">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+	<td></td><td></td><td>表名</td><td>注释</td><td>操作</td>
+</tr>
+		<tr>
+	{section name=mysec loop=$list}
+	<tr>
+	<td>DB_{$i}: </td><td><input type='checkbox' {$sign} name='tables[]' value='{$list[mysec].Name}'></td><td><a href='Admin_{$list[mysec].Page}.php' target='_blank'>{$list[mysec].Name}</a></td><td>{$list[mysec].Comment}</td><td><a href='?action=config&table={$list[mysec].Name}&config={$i}'>初始化</a>[{$list[mysec].Engine}]</td>
+</tr>
+	{/section}
+</table>
+	<input type="submit" value="更新">
+</form>
+{include file="tpl.footer.htm"}

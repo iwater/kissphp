@@ -1,0 +1,15 @@
+<h1>Base Table Admin:{$_table}表</h1>
+<ul id="nav">
+  <li{if $_action eq "insert"} id="current"{/if}><a href="?_action=insert">插入</a>
+  </li>
+  <li{if $_action eq "update"} id="current"{/if}><a>更新</a>
+  </li>
+  <li{if $_action eq "select"} id="current"{/if}><a>查看</a>
+  </li>
+  <li{if $_action eq "search"} id="current"{/if}><a href="?_action=search">搜索</a>
+  </li>
+  <li{if $_action eq "list"} id="current"{/if}><a href="?_action=list">列表</a>
+  </li>
+</ul>
+<br>
+<br>
