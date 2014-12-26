@@ -7,7 +7,7 @@
  * 可以直接运行的程序必须实现此接口
  * @package KISS
  */
-class KISS_Application {
+class KISS_ApplicationCache {
   const ON = 1;
   const OFF = 0;
 
