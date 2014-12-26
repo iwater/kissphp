@@ -29,6 +29,7 @@ class KISS_Application
     public static $session_status = self::OFF;
     public static $charset        = 'gbk';
     public static $mode           = 'online';
+    public static $appName        = '';
 
     /**
      * session 初始化
@@ -51,8 +52,12 @@ class KISS_Application
      */
     public static function getUniqueAppName()
     {
-        $root_path = KISS_Framework_Config::getSystemPath('root');
-        return 'A'.strtoupper(substr(md5($root_path), 0, 7));
+        if ('' == self::$appName) {
+            $root_path = KISS_Framework_Config::getSystemPath('root');
+            return 'A'.strtoupper(substr(md5($root_path), 0, 7));
+        } else {
+            return self::$appName;
+        }
     }
 }
 ?>

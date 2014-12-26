@@ -9,21 +9,13 @@
 <?php
 class KISS_Tools_Clean implements KISS_Interface_Runnable {
   function run() {
-    if (('WINNT' == PHP_OS) && getenv('TEMP')) {
-      $cache_path = getenv('TEMP');
-    } else {
-      $cache_path = '/tmp';
-    }
     $this->clear_xcache();
-    $this->clear_cache_file($cache_path);
+    $this->clear_cache_file(sys_get_temp_dir());
     $this->clear_cache_file(KISS_Framework_Config::getSystemPath('temp').DIRECTORY_SEPARATOR.'cache');
   }
 
   private function clear_xcache() {
-    $vcnt = xcache_count(XC_TYPE_VAR);
-    for ($i = 0; $i < $vcnt; $i ++) {
-      xcache_clear_cache(XC_TYPE_VAR, $i);
-    }
+    apc_clear_cache("user");
   }
 
   private function clear_cache_file($pPath) {

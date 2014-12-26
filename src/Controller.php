@@ -1,25 +1,34 @@
 <?php
 /**
- * 分发器,根据不同的客户端调用不同的 Controller
+ * KISS 核心类文件
  *
  * PHP versions 5
  *
- * @category KISS
- * @package  Controller
- * @author   iwater <iwater@gmail.com>
- * @license  http://www.opensource.org/licenses/bsd-license.php BSD
- * @link     http://kissphp.cn
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
  *
+ * @category  Core
+ * @package   KISS
+ * @author    iwater <iwater@gmail.com>
+ * @copyright 2003-2009 iwater
+ * @license   http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version   SVN: <svn_id>
+ * @link      http://www.kissphp.cn
  */
 
 /**
- * 分发器,根据不同的客户端调用不同的 Controller
+ * 控制器
  *
- * @category KISS
- * @package  Controller
- * @author   iwater <iwater@gmail.com>
- * @license  http://www.opensource.org/licenses/bsd-license.php BSD
- * @link     http://kissphp.cn
+ * @category  Core
+ * @package   KISS
+ * @author    iwater <iwater@gmail.com>
+ * @copyright 2003-2009 iwater
+ * @license   http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version   Release: 3.5.0
+ * @link      http://www.kissphp.cn
  */
 class KISS_Controller
 {
@@ -45,8 +54,18 @@ class KISS_Controller
                     if (!isset($memcache['host']) || !isset($memcache['port'])) {
                         die('没有配置 memcache 参数！');
                     }
-                    session_save_path("tcp://{$memcache['host']}:{$memcache['port']}");
+                    session_save_path("tcp://{$memcache['host']}:{$memcache['port']}?persistent=1&weight=1&timeout=1&retry_interval=5");
                     session_module_name('memcache');
+                    KISS_Application::sessionStart();
+                    break;
+
+                case 'redis':
+                    $server = KISS_Framework_Config::getValue('/application/session_redis');
+                    if (!isset($server['host']) || !isset($server['port'])) {
+                        die('没有配置 memcache 参数！');
+                    }
+                    session_save_path("tcp://{$server['host']}:{$server['port']}?persistent=1&weight=1&timeout=1&database={$server['database']}");
+                    session_module_name('redis');
                     KISS_Application::sessionStart();
                     break;
 
@@ -60,21 +79,15 @@ class KISS_Controller
             if (isset($_SERVER['HTTP_KISS_RPC']) && in_array($_SERVER['HTTP_KISS_RPC'], array('JSON')) && class_exists('KISS_Controller_'.$_SERVER['HTTP_KISS_RPC'])) {
                 $Controller = 'KISS_Controller_'.$_SERVER['HTTP_KISS_RPC'];
             }
-            if (strtolower(substr($_SERVER['SERVER_SOFTWARE'], 0, 6)) == 'apache') {
-                preg_match("/^(_([^_]+)_){0,1}([^\/]*?)(\.|$)/i",
-                    basename($_SERVER['PHP_SELF']), $matches);
-            } else {
-                preg_match("/^(_([^_]+)_){0,1}([^\/]*?)(\.|\?|$)/i",
-                    basename($_SERVER['REQUEST_URI']), $matches);
-            }
+            if(strpos($_SERVER['PHP_SELF'], '/WEB-INF/') !== false) $_SERVER['PHP_SELF'] =  $_SERVER['DOCUMENT_URI'];
+            preg_match("/^(_([^_]+)_){0,1}([^\/]*?)(\.|$)/i", basename($_SERVER['PHP_SELF']), $matches);
             if (!isset($Controller)) {
                 $Controller = "KISS_Controller_{$matches[2]}";
             }
             if ($Controller == 'KISS_Controller_' || !class_exists($Controller)) {
                 $Controller = "KISS_Controller_Brower";
             }
-            $class_name             = implode('_',
-                array_map('ucfirst', explode('_', $matches[3])));
+            $class_name             = implode('_', array_map('ucfirst', explode('_', $matches[3])));
             $this->_innerController = new $Controller($class_name);
         }
         $this->_innerController->run();

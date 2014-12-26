@@ -1,139 +1,184 @@
-<?
+<?php
 /**
-* @author ÂíÌÎ <matao@bj.tom.com>
-* @version v 1.5 2003/12/03
-* @package Core_Class
-*/
+ * KISS æ ¸å¿ƒç±»æ–‡ä»¶
+ *
+ * PHP versions 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category  Core
+ * @package   KISS
+ * @author    iwater <iwater@gmail.com>
+ * @copyright 2003-2009 iwater
+ * @license   http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version   SVN: <svn_id>
+ * @link      http://www.kissphp.cn
+ */
 
 /**
-* Í¼ÐÎÀà¿â
-*/
-
-class KISS_Util_Chart {
-    var $mChartTitle;
-    var $mDataTitles;
-    var $mDataValues;
-    var $mCategories;
-    var $mServerAddressIP = "203.212.6.137";
-    var $mDateColumnName = 'date';
-
-    var $mPicWidth  = 540;
-    var $mPicHeight = 330;
-
-    var $debug = false;
-
-    /**
-    * ¹¹Ôìº¯Êý
-    * @access public
-    */
-    function __construct() {
-    }
+ * å›¾å½¢ç±»åº“
+ *
+ * @category  Core
+ * @package   KISS
+ * @author    iwater <iwater@gmail.com>
+ * @copyright 2003-2009 iwater
+ * @license   http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version   Release: 3.5.0
+ * @link      http://www.kissphp.cn
+ */
+class KISS_Util_Chart
+{
+    private $_mChartTitle;
+    private $_mDataTitles;
+    private $_mDataValues;
+    private $_mCategories;
+    private $_mServerAddressIP = "203.212.6.137";
+    private $_mDateColumnName  = 'date';
+    private $_mPicWidth        = 540;
+    private $_mPicHeight       = 330;
 
     /**
-    * ÉèÖÃÍ¼Æ¬±êÌâ
-    * @access public
-    */
-    function setChartTitle($pChartTitle) {
-        $this->mChartTitle = $this->GB2312toUNICODE($pChartTitle);
+     * è®¾ç½®å›¾ç‰‡æ ‡é¢˜
+     *
+     * @param string $pChartTitle æ ‡é¢˜
+     *
+     * @return void
+     */
+    public function setChartTitle ($pChartTitle)
+    {
+        $this->_mChartTitle = $this->_gb2312ToUNICODE($pChartTitle);
     }
-
     /**
-    * ÉèÖÃÊý¾ÝÁÐÃû
-    * @access public
-    */
-    function setDateColumnName($pDateColumnName) {
-        $this->mDateColumnName = $pDateColumnName;
+     * è®¾ç½®æ•°æ®åˆ—å
+     *
+     * @param array $pDateColumnName åˆ—åæ•°ç»„
+     *
+     * @return void
+     */
+    public function setDateColumnName ($pDateColumnName)
+    {
+        $this->_mDateColumnName = $pDateColumnName;
     }
-
     /**
-    * ÉèÖÃÊý¾Ý±êÌâ
-    * @access public
-    */
-    function setDataTitles($pDataTitles) {
-        $this->mDataTitles = $pDataTitles;
+     * è®¾ç½®æ•°æ®æ ‡é¢˜
+     *
+     * @param array $pDataTitles æ ‡é¢˜æ•°ç»„
+     *
+     * @return void
+     */
+    public function setDataTitles ($pDataTitles)
+    {
+        $this->_mDataTitles = $pDataTitles;
     }
-
     /**
-    * ÉèÖÃÊý¾ÝÖµ
-    * @access public
-    */
-    function setDataValues($pDataValues) {
-        $this->mDataValues = $pDataValues;
+     * è®¾ç½®æ•°æ®å€¼
+     *
+     * @param array $pDataValues æ•°æ®
+     *
+     * @return void
+     */
+    public function setDataValues ($pDataValues)
+    {
+        $this->_mDataValues = $pDataValues;
     }
-
     /**
-    * ÉèÖÃ·ÖÀà
-    * @access public
-    */
-    function setCategories($pCategories) {
-        $this->mCategories = $pCategories;
+     * è®¾ç½®åˆ†ç±»
+     *
+     * @param array $pCategories åˆ†ç±»
+     *
+     * @return void
+     */
+    public function setCategories ($pCategories)
+    {
+        $this->_mCategories = $pCategories;
     }
-    
-    public function serImageSize($pWidth, $pHeight){
-        $this->mPicWidth = $pWidth;
-        $this->mPicHeight = $pHeight;
-    }
-
     /**
-    * »­Ê±¼äÇúÏßÍ¼£¬Ö§³Ö×îÐ¡Ê±¼äÆ¬ÎªÌì
-    * @access public
-    * @example draw.php »­Ê±¼äÇúÏßÍ¼Àý×Ó
-    */
-    function drawTimeLine($pChartTitle) {
+     * è®¾ç½®å›¾ç‰‡å®½é«˜
+     *
+     * @param int $pWidth  å®½
+     * @param int $pHeight é«˜
+     *
+     * @return void
+     */
+    public function serImageSize ($pWidth, $pHeight)
+    {
+        $this->_mPicWidth  = $pWidth;
+        $this->_mPicHeight = $pHeight;
+    }
+    /**
+     * ç”Ÿæˆæ›²çº¿å›¾
+     *
+     * @param string $pChartTitle æ ‡é¢˜
+     *
+     * @return string
+     */
+    public function drawTimeLine ($pChartTitle)
+    {
         $scripts = '';
-        foreach($this->mDataTitles as $key => $value) {
+        foreach ($this->_mDataTitles as $key => $value) {
             $listdata = '';
-            foreach($this->mDataValues as $item) {
-                $listdata .= "{$item[$this->mDateColumnName]},{$item[$key]};";
+            foreach ($this->_mDataValues as $item) {
+                $listdata .= "{$item[$this->_mDateColumnName]},{$item[$key]};";
             }
-            if(!empty($value)) {
-                $value = $this->GB2312toUNICODE($value);
+            if (! empty($value)) {
+                $value = $this->_gb2312ToUNICODE($value);
             }
             $scripts .= "graph.setseries({$value};{$listdata})";
         }
         return $this->corda($scripts, "Chart9.pcxml", $pChartTitle);
     }
-
     /**
-    * »­Öù×´Í¼
-    * @access public
-    */
-    function drawBar($pChartTitle) {
-        foreach($this->mDataValues as $item) {
-            $listdata .= "{$item[$this->mDateColumnName]};";
+     * ç”ŸæˆæŸ±çŠ¶å›¾
+     *
+     * @param string $pChartTitle æ ‡é¢˜
+     *
+     * @return string
+     */
+    public function drawBar ($pChartTitle)
+    {
+        foreach ($this->_mDataValues as $item) {
+            $listdata .= "{$item[$this->_mDateColumnName]};";
         }
         $scripts .= "graph.SetCategories({$listdata})";
-        foreach( $this->mDataTitles as $key => $value )    {
+        foreach ($this->_mDataTitles as $key => $value) {
             unset($listdata);
-            foreach ($this->mDataValues as $item) {
+            foreach ($this->_mDataValues as $item) {
                 $listdata .= "{$item[$key]};";
             }
-            if(!empty($value)) {
-                $value = $this->GB2312toUNICODE($value);
+            if (! empty($value)) {
+                $value = $this->_gb2312ToUNICODE($value);
             }
             $scripts .= "graph.SetSeries({$value};{$listdata})";
         }
         return $this->corda($scripts, "Chart4.pcxml", $pChartTitle);
     }
-
     /**
-    * »­±ýÍ¼
-    * @access public
-    */
-    function drawPie($pChartTitle) {
-        if (count($this->mCategories) > 0)
-        foreach( $this->mCategories as $val ) {
-            $val = $this->GB2312toUNICODE($val);
-            $listdata .= "{$val};";
+     * ç”Ÿæˆé¥¼å›¾
+     *
+     * @param string $pChartTitle æ ‡é¢˜
+     *
+     * @return string
+     */
+    public function drawPie ($pChartTitle)
+    {
+        if (count($this->_mCategories) > 0) {
+            foreach ($this->_mCategories as $val) {
+                $val       = $this->_gb2312ToUNICODE($val);
+                $listdata .= "{$val};";
+            }
         }
         $scripts .= "graph.SetCategories({$listdata})";
-        foreach( $this->mDataTitles as $key => $value ) {
+        foreach ($this->_mDataTitles as $key => $value) {
             unset($listdata);
-            foreach ($this->mDataValues as $item) {
+            foreach ($this->_mDataValues as $item) {
                 $listdata .= "{$item[$key]};";
             }
-            if(!empty($value)) {
-                $value = $this->GB2312toUNICODE($value);
+            if (! empty($value)) {
+                $value = $this->_gb2312ToUNICODE($value);
             }
             $scripts .= "graph.SetSeries({$value};{$listdata})";
         }
@@ -141,27 +186,28 @@ class KISS_Util_Chart {
     }
 
     /**
-    * »­Öù×´Í¼
-    * graph.setcategories(Group 1; Group 2; Group 3)
-    * graph.setseries(Item 1;54;75;85)
-    * graph.setseries(Item 2;92;60;70)
-    * graph.setseries(Item 3;68;87;37)
-    * @access public
-    */
-    function drawStackedBar($pChartTitle) {
-        if (count($this->mCategories) > 0)
-        foreach( $this->mCategories as $val ) {
-            $val = $this->GB2312toUNICODE($val);
-            $listdata .= "{$val};";
+     * ç”ŸæˆStackedBar
+     *
+     * @param string $pChartTitle æ ‡é¢˜
+     *
+     * @return string
+     */
+    public function drawStackedBar ($pChartTitle)
+    {
+        if (count($this->_mCategories) > 0) {
+            foreach ($this->_mCategories as $val) {
+                $val       = $this->_gb2312ToUNICODE($val);
+                $listdata .= "{$val};";
+            }
         }
         $scripts .= "graph.SetCategories({$listdata})";
-        foreach( $this->mDataTitles as $key => $value ) {
+        foreach ($this->_mDataTitles as $key => $value) {
             unset($listdata);
-            foreach ($this->mDataValues as $item) {
+            foreach ($this->_mDataValues as $item) {
                 $listdata .= "{$item[$key]};";
             }
-            if(!empty($value)) {
-                $value = $this->GB2312toUNICODE($value);
+            if (! empty($value)) {
+                $value = $this->_gb2312ToUNICODE($value);
             }
             $scripts .= "graph.SetSeries({$value};{$listdata})";
         }
@@ -169,32 +215,42 @@ class KISS_Util_Chart {
     }
 
     /**
-    *
-    * @access private
-    */
-    function corda( $pcScript, $template ,$pChartTitle ) {
+     * ç”Ÿæˆå›¾è¡¨æ˜¾ç¤ºä»£ç 
+     *
+     * @param string $pcScript    è„šæœ¬
+     * @param string $template    æ¨¡æ¿
+     * @param string $pChartTitle æ ‡é¢˜
+     *
+     * @return string
+     */
+    function corda ($pcScript, $template, $pChartTitle)
+    {
         $this->setChartTitle($pChartTitle);
-        $myImage = new CordaEmbedder();
-        $myImage->externalServerAddress = "http://{$this->mServerAddressIP}:2001";
-        $myImage->internalCommPortAddress = "http://{$this->mServerAddressIP}:2002";
-        $myImage->appearanceFile = "apfiles/".$template;
-        $myImage->userAgent = $_SERVER['HTTP_USER_AGENT'];
-        $myImage->width = $this->mPicWidth;
-        $myImage->height = $this->mPicHeight;
-        $myImage->language = "EN";
-        $myImage->pcScript = "title.setText({$this->mChartTitle}){$pcScript}";
-        $myImage->outputType = "JPEG";
-        $myImage->imageType = "JPEG";
+        $myImage                          = new CordaEmbedder();
+        $myImage->externalServerAddress   = "http://{$this->_mServerAddressIP}:2001";
+        $myImage->internalCommPortAddress = "http://{$this->_mServerAddressIP}:2002";
+        $myImage->appearanceFile          = "apfiles/" . $template;
+        $myImage->userAgent               = $_SERVER['HTTP_USER_AGENT'];
+        $myImage->width                   = $this->_mPicWidth;
+        $myImage->height                  = $this->_mPicHeight;
+        $myImage->language                = "EN";
+        $myImage->pcScript                = "title.setText({$this->_mChartTitle}){$pcScript}";
+        $myImage->outputType              = "JPEG";
+        $myImage->imageType               = "JPEG";
         return $myImage->getEmbeddingHTML();
     }
 
     /**
-    *
-    * @access private
-    */
-    function GB2312toUNICODE($pString) {
-        if(!empty($pString)) {
-            $chs = new Chinese("GB2312","UNICODE",$pString);
+     * GB2312è½¬UNICODE
+     *
+     * @param string $pString åŽŸå§‹å­—ä¸²
+     *
+     * @return string
+     */
+    private function _gb2312ToUNICODE ($pString)
+    {
+        if (! empty($pString)) {
+            $chs    = new Chinese("GB2312", "UNICODE", $pString);
             $string = $chs->ConvertIT();
             return preg_replace("/&#x([0-9A-F]{4});/", "%u\$1", $string);
         }

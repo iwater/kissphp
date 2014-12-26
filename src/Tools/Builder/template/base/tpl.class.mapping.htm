@@ -1,42 +1,70 @@
 <?php
-//
-// +------------------------------------------------------------------------+
-// | PHP Version 5                                                          |
-// +------------------------------------------------------------------------+
-// | Copyright (c) All rights reserved.                                     |
-// +------------------------------------------------------------------------+
-// | This source file is subject to version 3.00 of the PHP License,        |
-// | that is available at http://www.php.net/license/3_0.txt.               |
-// | If you did not receive a copy of the PHP license and are unable to     |
-// | obtain it through the world-wide-web, please send a note to            |
-// | license@php.net so we can mail you a copy immediately.                 |
-// +------------------------------------------------------------------------+
-// | Author:iwater@gmail.com                                                |
-// +------------------------------------------------------------------------+
-//
-// $Id$
-//
-
-class {$class_name} extends KISS_ORM_BaseTableObject {literal}{{/literal}
+/**
+ * 表{$table_name}对应的映射类
+ *
+ * PHP versions 5
+ *
+ * @category DB_Tables
+ * @package  WebGame
+ * @author   马涛 <iwater@gmail.com>
+ * @license  http://www.kissphp.cn
+ * @version  SVN: <svn_id>
+ * @link     http://www.kissphp.cn
+ */
+/**
+ * 表{$table_name}对应的映射类
+ *
+ * @category DB_Tables
+ * @package  WebGame
+ * @author   马涛 <iwater@gmail.com>
+ * @license  http://www.kissphp.cn
+ * @version  Release: 1.0.0
+ * @link     http://www.kissphp.cn
+ * $desc     表{$table_name}对应的映射类
+ */
+class DB_{$class_name} extends KISS_ORM_BaseTableObject
+{ldelim}
 {foreach item=row from=$keys}
-  /**
-   * {$row.desc}
-   * Class Member Mapping to Table "{$table_name}" Field "{$row.field}"
-   * 类的属性成员，指向 {$table_name} 表的 {$row.field} 字段
-   * Refer to $this->mMapHash['{$row.field}'];
-   * 指向 $this->mMapHash['{$row.field}'] 的同一变量;
-   * @access public
-   * @var {$row.type}
-   */
-  var $m{$row.member};
-
+    /**
+     * {$row.Comment}
+     * Class Member Mapping to Table "{$table_name}" Field "{$row.Field}"
+     * 类的属性成员，指向 {$table_name} 表的 {$row.Field} 字段
+     * Refer to $this->mMapHash['{$row.Field}'];
+     * 指向 $this->mMapHash['{$row.Field}'] 的同一变量;
+     * @access public
+     * @var {$row.PHPType}
+     * @deprecated 不推荐使用，请使用对应的set/get方法
+     */
+    public $m{$row.PHPMember};
 {/foreach}
-  /**
-   * 构造函数
-   * @access public
-   */
-  public function __construct() {literal}{{/literal}
-    parent::__construct("{$table_name}",{$db_offset});
-  {literal}}
-}{/literal}
+    /**
+     * 构造函数
+     * @access public
+     */
+    public function __construct ()
+    {ldelim}
+        parent::__construct("{$table_name}", {$db_offset});
+    {rdelim}
+{foreach item=row from=$keys}
+    /**
+     * 获取{$row.Comment}
+     * @return {$row.PHPType} {$row.Comment}
+     */
+    public function get{$row.PHPMember} ()
+    {ldelim}
+        return $this->m{$row.PHPMember};
+    {rdelim}
+    /**
+     * 设置{$row.Comment}
+     * {ldelim}@link $m{$row.PHPMember}{rdelim}
+     * @param {$row.PHPType} $p{$row.PHPMember} {$row.Comment}
+     * @return DB_{$class_name}
+     */
+    public function set{$row.PHPMember} ($p{$row.PHPMember})
+    {ldelim}
+        $this->m{$row.PHPMember} = $p{$row.PHPMember};
+        return $this;
+    {rdelim}
+{/foreach}
+{rdelim}
 ?>

@@ -1,46 +1,77 @@
 <?php
 /**
-*
-* @author ÂíÌÎ <matao@bj.tom.com>
-* @version v 2.1 alpha 2004/10/27
-* @package Core_Class
-*/
+ * KISS æ ¸å¿ƒç±»æ–‡ä»¶
+ *
+ * PHP versions 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category  KISS
+ * @package   Core
+ * @author    iwater <iwater@gmail.com>
+ * @copyright 2003-2009 iwater
+ * @license   http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version   SVN: $Id: User.php 109 2008-12-04 06:13:55Z matao $
+ * @link      http://www.kissphp.cn
+ */
 
 /**
-* ×¢²á±íÀà£¬Ìá¹©È«¾Ö±äÁ¿
-*/
-class KISS_Framework_Registry {
+ * æ³¨å†Œè¡¨ç±»ï¼Œæä¾›å…¨å±€å˜é‡
+ *
+ * @category  KISS
+ * @package   Core
+ * @author    iwater <iwater@gmail.com>
+ * @copyright 2003-2009 iwater
+ * @license   http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version   Release: 3.5.0
+ * @link      http://www.kissphp.cn
+ */
+
+class KISS_Framework_Registry
+{
     private $_cache_stack;
 
-    function __construct() {
+    private function __construct()
+    {
         $this->_cache_stack = array(array());
     }
-    function setEntry($key, $item) {
+    public function setEntry($key, $item)
+    {
         $this->_cache_stack[0][$key] = $item;
     }
-    function setEntryValue($key, $item) {
+    private function _setEntryValue($key, $item)
+    {
         $this->_cache_stack[0][$key] = $item;
     }
-    function &getEntry($key) {
+    public function &getEntry($key)
+    {
         return $this->_cache_stack[0][$key];
     }
-    function isEntry($key) {
+    private function _isEntry($key)
+    {
         return ($this->getEntry($key) !== null);
     }
-    static function &instance() {
+    public static function &instance()
+    {
         static $registry = false;
         if (!$registry) {
             $registry = new KISS_Framework_Registry();
         }
         return $registry;
     }
-    function save() {
+    private function _save()
+    {
         array_unshift($this->_cache_stack, array());
         if (!count($this->_cache_stack)) {
             trigger_error('Registry lost');
         }
     }
-    function restore() {
+    private function _restore()
+    {
         array_shift($this->_cache_stack);
     }
 }

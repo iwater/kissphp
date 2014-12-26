@@ -1,26 +1,36 @@
 <?php
 /**
- * KISS_Object 基础类库，所有开发类的基类
+ * KISS 核心类文件
  *
  * PHP versions 5
  *
- * @category KISS
- * @package  Core
- * @author   iwater <iwater@gmail.com>
- * @license  http://www.opensource.org/licenses/bsd-license.php BSD
- * @link     http://kissphp.cn
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
  *
+ * @category  Core
+ * @package   KISS
+ * @author    iwater <iwater@gmail.com>
+ * @copyright 2003-2009 iwater
+ * @license   http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version   SVN: <svn_id>
+ * @link      http://www.kissphp.cn
  */
 
 /**
- * KISS_Object 基础类库，所有开发类的基类
+ * 基础类，所有开发类的基类
  *
- * @category KISS
- * @package  Core
- * @author   iwater <iwater@gmail.com>
- * @license  http://www.opensource.org/licenses/bsd-license.php BSD
- * @link     http://kissphp.cn
+ * @category  Core
+ * @package   KISS
+ * @author    iwater <iwater@gmail.com>
+ * @copyright 2003-2009 iwater
+ * @license   http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version   Release: 3.5.0
+ * @link      http://www.kissphp.cn
  */
+
 abstract class KISS_Object
 {
     /**
@@ -42,7 +52,8 @@ abstract class KISS_Object
             } else {
                 $this->UniqueObjectID = uniqid();
             }
-            KISS_Util_Debug::setDebugInfo(array($this->UniqueObjectID,get_class($this),'Object','Constructed'));
+            $info_array = array($this->UniqueObjectID,get_class($this),'Object','Constructed');
+            KISS_Util_Debug::setDebugInfo($info_array);
         }
     }
 
@@ -53,7 +64,8 @@ abstract class KISS_Object
     public function __destruct()
     {
         if (KISS_Framework_Config::getMode()=='debug') {
-            KISS_Util_Debug::setDebugInfo(array($this->UniqueObjectID,get_class($this),'Object','Destructed'));
+            $info_array = array($this->UniqueObjectID,get_class($this),'Object','Destructed');
+            KISS_Util_Debug::setDebugInfo($info_array);
         }
     }
 }

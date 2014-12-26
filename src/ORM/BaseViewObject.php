@@ -1,7 +1,7 @@
 <?php
 /**
  * @author $Author: matao $
- * @version $Id: BaseViewObject.php 106 2008-04-03 10:34:53Z matao $
+ * @version $Id: BaseViewObject.php 114 2008-12-05 09:46:23Z matao $
  * @package KISS
  * @subpackage ORM
  */
@@ -47,15 +47,15 @@ class KISS_ORM_BaseViewObject extends KISS_Object implements ArrayAccess,Iterato
     function prepareMapHash()
     {
         $file_cache = new KISS_Util_FileCache('0'.$this->mTableHash['name']);
-        if ($file_cache->check_cache_status()) {
-            $this->mTableFieldHash = unserialize($file_cache->get_cache_content());
+        if ($file_cache->checkCacheStatus()) {
+            $this->mTableFieldHash = unserialize($file_cache->getCacheContent());
         }
         else {
             $this->mTableFieldHash = $this->SqlCommand->getTableFieldHash($this->mTableHash['name']);
             if (count($this->mTableFieldHash) > 0) {
                 if(KISS_Framework_Config::getMode()=="online") {
                     //如果系统运行在online模式下,则记录缓存,默认是online模式
-                    $file_cache->put_cache_content(serialize($this->mTableFieldHash));
+                    $file_cache->putCacheContent(serialize($this->mTableFieldHash));
                 }
             }
             else {
@@ -70,14 +70,14 @@ class KISS_ORM_BaseViewObject extends KISS_Object implements ArrayAccess,Iterato
         }
 
         $file_cache = new KISS_Util_FileCache('1'.$this->mTableHash['name']);
-        if ($file_cache->check_cache_status()) {
-            $this->mTableHash['key'] = unserialize($file_cache->get_cache_content());
+        if ($file_cache->checkCacheStatus()) {
+            $this->mTableHash['key'] = unserialize($file_cache->getCacheContent());
         }
         else {
             $this->mTableHash['key'] = $this->SqlCommand->getTablePrimeKey($this->mTableHash['name']);
             if(KISS_Framework_Config::getMode()=="online") {
                 //如果系统运行在online模式下,则记录缓存,默认是online模式
-                $file_cache->put_cache_content(serialize($this->mTableHash['key']));
+                $file_cache->putCacheContent(serialize($this->mTableHash['key']));
             }
         }
     }

@@ -1,59 +1,81 @@
 <?php
 /**
-* @author ÂíÌÎ <matao@bj.tom.com>
-* @version v 1.0 2004/03/05
-* @package Core_Class
-*/
+ * KISS æ ¸å¿ƒç±»æ–‡ä»¶
+ *
+ * PHP versions 5
+ *
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category  Core
+ * @package   KISS
+ * @author    iwater <iwater@gmail.com>
+ * @copyright 2003-2009 iwater
+ * @license   http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version   SVN: <svn_id>
+ * @link      http://www.kissphp.cn
+ */
 
 /**
-* Permission È¨ÏŞ¹ÜÀíÀà¿â
-*/
-class KISS_Util_Permission {
-    public $mPermissions = array (
-    1 => 'ÈËÔ±¼°ÆäËû¹ÜÀíÄ£¿é',
-    2 => 'ÊÕÈë¹ÜÀíÏµÍ³ä¯ÀÀ',
-    4 => 'Ö§³ö¹ÜÀíÏµÍ³Â¼Èë',
-    8 => 'Ö§³ö¹ÜÀíÏµÍ³ä¯ÀÀ',
-    16 => 'Èº·¢ÊÕÈëÊı¾İÍ³¼Æ',
-    );
-    
-    function getPermissions() {
+ * Permission æƒé™ç®¡ç†ç±»åº“
+ *
+ * @category  Core
+ * @package   KISS
+ * @author    iwater <iwater@gmail.com>
+ * @copyright 2003-2009 iwater
+ * @license   http://www.php.net/license/3_0.txt  PHP License 3.0
+ * @version   Release: 3.5.0
+ * @link      http://www.kissphp.cn
+ */
+class KISS_Util_Permission
+{
+    public $mPermissions = array(
+        1 => 'äººå‘˜åŠå…¶ä»–ç®¡ç†æ¨¡å—',
+        2 => 'æ”¶å…¥ç®¡ç†ç³»ç»Ÿæµè§ˆ',
+        4 => 'æ”¯å‡ºç®¡ç†ç³»ç»Ÿå½•å…¥',
+        8 => 'æ”¯å‡ºç®¡ç†ç³»ç»Ÿæµè§ˆ',
+        16 => 'ç¾¤å‘æ”¶å…¥æ•°æ®ç»Ÿè®¡');
+    function getPermissions ()
+    {
         return $this->mPermissions;
     }
-    
-    function mergePermissions($pPermissions) {
-        if(count($pPermissions)==0) {
+    function mergePermissions ($pPermissions)
+    {
+        if (count($pPermissions) == 0) {
             return 0;
         }
         $my_permission = 0;
-        foreach($pPermissions as $permission) {
+        foreach ($pPermissions as $permission) {
             $my_permission = $my_permission | $permission;
         }
         return $my_permission;
     }
-    
-    function authorization($pPermission,$pUserPermission) {
-        if($pPermission == ($pPermission & $pUserPermission)) {
+    function authorization ($pPermission, $pUserPermission)
+    {
+        if ($pPermission == ($pPermission & $pUserPermission)) {
             return true;
         }
         return false;
     }
-    
-    public static function InvokePermissions($pUser, $pObject, $pMethod) {
+    public static function invokePermissions ($pUser, $pObject, $pMethod)
+    {
         return true;
-        $pUser = new User();
-        $registry = KISS_Framework_Registry::instance();
-        $permissions = $registry->getEntry('user_defined');
+        $pUser               = new User();
+        $registry            = KISS_Framework_Registry::instance();
+        $permissions         = $registry->getEntry('user_defined');
         $permissions_default = $registry->getEntry('default');
-        $permission_array = array(    $permissions->xpath('/application/permission/user[@role="'.$pUser->getRole().'"]/class[@name="'.get_class($pObject).'"]/method[@name="'.$pMethod.'"]'),
-                        $permissions->xpath('/application/permission/user[@role="'.$pUser->getRole().'"]/class[@name="'.get_class($pObject).'"]'),
-                        $permissions->xpath('/application/permission/user[@role="'.$pUser->getRole().'"]'),
-                        $permissions->xpath('/application/permission/user[@role="default"]'),
-                        //$permissions_default->xpath('/application/permission/user[@role="default"]')
-                    );
+        $permission_array    = array(
+            $permissions->xpath('/application/permission/user[@role="' . $pUser->getRole() . '"]/class[@name="' . get_class($pObject) . '"]/method[@name="' . $pMethod . '"]'),
+            $permissions->xpath('/application/permission/user[@role="' . $pUser->getRole() . '"]/class[@name="' . get_class($pObject) . '"]'),
+            $permissions->xpath('/application/permission/user[@role="' . $pUser->getRole() . '"]'),
+            $permissions->xpath('/application/permission/user[@role="default"]'));//$permissions_default->xpath('/application/permission/user[@role="default"]')
+
         foreach ($permission_array as $permission) {
-            if($permission && count($permission) == 1) {
-                return ((string)$permission[0]['access'] == "true") ;
+            if ($permission && count($permission) == 1) {
+                return ((string) $permission[0]['access'] == "true");
             }
         }
         return false;
